@@ -1,0 +1,9 @@
+t=5;
+tic
+val_fil_low(t)=0.0279*real_val(t)+0.0557*real_val(t-1)+0.0279*real_val(t-2)+1.4755*val_fil_low(t-1)-0.5869*val_fil_low(t-2);
+val_fil_high(t)=0.9846*val_fil_low(t)-1.9691*val_fil_low(t-1)+0.9846*val_fil_low(t-2)+1.9689*val_fil_high(t-1)-0.9694*val_fil_high(t-2);
+val_fil_diff(t)=0.25*val_fil_high(t)+0.125*val_fil_high(t-1)-0.125*val_fil_high(t-2)-0.25*val_fil_high(t-3);
+val_square(t)=val_fil_diff(t).^2;
+threshold(t)=max(val_square(t-3),val_square(t))/3;
+real_thresh=max(threshold);
+toc;
