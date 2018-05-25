@@ -1,0 +1,27 @@
+This is a GUI on matlab.
+
+Problem : If user 1 is in the mode of following the heart, and LED of user 2 is controlled in blinking mode, then there would be some influence
+	  between these two LEDS.
+
+Solutions that can be tied:
+1. Change string: change a way to send code from matlab to arduino which is more straightforward than before. The code is like 'RGBFf', which corresponding to 
+   red(value as 0 or 1),green(value as 0 or 1),blue(value as 0 or 1),Follow(following the heart beat or not)(value as 0 or 1),frequency (value as 0~5).
+2. Use PWM on hardware(arduino) directly to control the frequency of LED. In this way, we will not use software to control the frequency, so there
+   won't be any influence to the frequency of blinking. 
+3. Discard the arduino script. Don't use the serial port to send string to arduino and decode the string on arduino controlling the LEDs. Use matlab to control
+   the LEDs directly, which means, there would be only matlab code. This way would be more simplify. 
+
+I decided to try the third way first, cause there would not have problem of communication through serial port. So I changed the matlab code a lot, named big_pivot.m
+
+New problem after changing the Matlab code which controlls the arduino directly.
+    Because I use several timers to control the frequency of blinking. So still when two users are in different mode, timer would block the control to arduino.
+And from 'Connection Lost When Using Timer' in https://www.mathworks.com/help/supportpkg/arduinoio/ug/connection-and-communication-issues.html
+we actually will meet problems when running timer, arduino and GUI at same time. So we need to change again.
+
+Can't combine serial port and directly control together. Because arduino is only on one COM port and these two ways need communicate with same port, 
+which can not be came true. 
+
+Find other ways to solve this problem: we definitely can't use matlab directly to make both LED blinking and following heart rate worked. So there are some ways
+to solve this:
+1. Change back to the first step, try solution 1 and 2. 
+2.See whether it's possibale to write two matlab scripts which split the timers and following heart rate. 
